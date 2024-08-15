@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatório de Harmonização Energética</title>
+    <style>
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 800px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header img {
+            width: 150px;
+        }
+        .header h1 {
+            font-size: 24px;
+            color: #2E8B57;
+            margin: 0;
+        }
+        .header h2 {
+            font-size: 18px;
+            color: #e67e22;
+            margin: 0;
+        }
+        .info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .info div {
+            width: 48%;
+            font-size: 14px;
+        }
+        .info input[type="text"], .info input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .campo-energetico, .chakras, .campo-aurico, .energia-saude, .areas-vida {
+            background-color: #2E8B57;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .campo-energetico p, .chakras p, .campo-aurico p, .energia-saude p, .areas-vida p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: center;
+        }
+        th {
+            background-color: #2E8B57;
+            color: white;
+        }
+        td input[type="text"] {
+            width: 90%;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .footer {
+            text-align: center;
+            font-size: 12px;
+            color: #888;
+        }
+        .chakra-name {
+            font-weight: bold;
+            color: #2E8B57;
+        }
+        .coronario { color: purple; }
+        .frontal { color: blue; }
+        .laringeo { color: #007bff; }
+        .cardiaco { color: green; }
+        .plexo-solar { color: yellow; }
+        .sacro { color: orange; }
+        .basico { color: red; }
+        .comentario {
+            margin-top: 10px;
+            font-weight: bold;
+            text-align: left;
+        }
+        .comentario input[type="text"], .energia-saude-section input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .aurico-section, .energia-saude-section, .areas-vida-section {
+            margin-bottom: 20px;
+        }
+        .aurico-section .slider-container, .areas-vida-section .slider-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .aurico-section .slider-container label, .areas-vida-section .slider-container label {
+            width: 20%;
+            text-align: left;
+            font-weight: bold;
+        }
+        .aurico-section .slider-container input[type="range"], .areas-vida-section .slider-container input[type="range"] {
+            width: 60%;
+        }
+        .aurico-section .slider-container span, .areas-vida-section .slider-container span {
+            width: 20%;
+            text-align: left;
+            font-weight: bold;
+        }
+        .cores-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .cores-section div {
+            width: 48%;
+            text-align: center;
+        }
+        .cores-section input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .image-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .image-section img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .energia-saude-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .energia-saude-section input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .energia-saude-section label {
+            width: 25%;
+            text-align: left;
+            font-weight: bold;
+        }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 40px;
+        }
+
+        .button-container button {
+            background-color: #2E8B57;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .button-container button:hover {
+            background-color: #246646;
+        }
+
+        @media only screen and (max-width: 600px) {
+            body {
+                font-size: 14px;
+            }
+
+            table, th, td {
+                font-size: 12px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            h3 {
+                font-size: 18px;
+            }
+
+            .button-container button {
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <script>
+        function clearAllInputs() {
+            document.querySelectorAll('input').forEach(input => {
+                input.value = '';
+                if (input.type === 'radio') {
+                    input.checked = false;
+                }
+            });
+            localStorage.clear();
+        }
+
+        function exportData() {
+            const fileName = prompt("Por favor, insira o nome do arquivo:", "dados_radiestesia");
+            if (!fileName) return;
+
+            const data = {};
+            document.querySelectorAll('input').forEach((input) => {
+                if (input.type === 'radio') {
+                    if (input.checked) {
+                        data[input.id] = input.value;
+                    }
+                } else {
+                    data[input.id] = input.value;
+                }
+            });
+            const json = JSON.stringify(data, null, 2);
+            const blob = new Blob([json], {type: "application/json"});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `${fileName}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const data = JSON.parse(event.target.result);
+
+                Object.keys(data).forEach(key => {
+                    const input = document.getElementById(key);
+                    if (input) {
+                        if (input.type === 'radio') {
+                            document.querySelector(`input[name="${input.name}"][value="${data[key]}"]`).checked = true;
+                        } else {
+                            input.value = data[key];
+                        }
+                    }
+                });
+            };
+            reader.readAsText(file);
+        }
+
+        function generatePDF() {
+            const element = document.querySelector(".container");
+            const opt = {
+                margin: 0.5,
+                filename: 'relatorio_harmonizacao.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
+                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+            };
+            html2pdf().from(element).set(opt).save();
+        }
+
+        function formatPercentage(input) {
+            let value = input.value;
+            value = value.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+            if (value) {
+                input.value = value + '%';
+            } else {
+                input.value = '';
+            }
+        }
+
+        function updateSliderValue(slider, output) {
+            output.textContent = slider.value + '%';
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">            
+            <h1>RELATÓRIO DE HARMONIZAÇÃO ENERGÉTICA</h1>
+            <h2>RADIESTESIA TERAPÊUTICA</h2>
+        </div>
+        
+        <div class="info">
+            <div>Nome: <input type="text" id="nome" name="nome" placeholder="Digite o nome"></div>
+            <div>Data da análise: <input type="date" id="data_analise" name="data"></div>
+        </div>
+        
+        <div class="campo-energetico">
+            <h3>CAMPOS ENERGÉTICOS</h3>
+            <p>Acesso aos campos eletromagnéticos e aferição energética dos campos <strong>mental, emocional, espiritual e físico.</strong></p>
+        </div>
+        
+        <table>
+            <tr>
+                <th>CAMPO / CORPO</th>
+                <th>MENTAL</th>
+                <th>EMOCIONAL</th>
+                <th>ESPIRITUAL</th>
+                <th>FÍSICO</th>
+            </tr>
+            <tr>
+                <td>QUAL O % DE DESEQUILÍBRIO?</td>
+                <td><input type="text" id="percentual_desequilibrio_mental" name="mental" placeholder="Digite o %" oninput="formatPercentage(this)"></td>
+                <td><input type="text" id="percentual_desequilibrio_emocional" name="emocional" placeholder="Digite o %" oninput="formatPercentage(this)"></td>
+                <td><input type="text" id="percentual_desequilibrio_espiritual" name="espiritual" placeholder="Digite o %" oninput="formatPercentage(this)"></td>
+                <td><input type="text" id="percentual_desequilibrio_fisico" name="fisico" placeholder="Digite o %" oninput="formatPercentage(this)"></td>
+            </tr>
+            <tr>
+                <td>AFETA QUAIS CHAKRAS?</td>
+                <td><input type="text" id="mental_chakras" name="mental-chakras" placeholder="Especifique"></td>
+                <td><input type="text" id="emocional_chakras" name="emocional-chakras" placeholder="Especifique"></td>
+                <td><input type="text" id="espiritual_chakras" name="espiritual-chakras" placeholder="Especifique"></td>
+                <td><input type="text" id="fisico_chakras" name="fisico-chakras" placeholder="Especifique"></td>
+            </tr>
+        </table>
+
+        <div class="chakras">
+            <h3>CHAKRAS</h3>
+            <p>Aferição energética dos 7 principais chakras e sua correspondência no corpo físico.</p>
+        </div>
+        
+        <table>
+            <tr>
+                <th>CHAKRA</th>
+                <th>TEM DESEQUILÍBRIO?</th>
+                <th>QUAL O % DE DESEQUILÍBRIO?</th>
+                <th>TIPO DE ATIVIDADE</th>
+                <th>AFETA O CORPO FÍSICO?</th>
+            </tr>
+            <tr>
+                <td class="chakra-name coronario">Coronário</td>
+                <td><input type="text" id="desequilibrio_coronario" name="coronario-desequilibrio" placeholder="Sim/Não"></td>
+                <td><input type="text" id="percentual_desequilibrio_coronario" name="coronario-percentual" placeholder="Digite o %" oninput="formatPercentage(this)"></td>
+                <td><input type="text" id="atividade_coronario" name="coronario-atividade" placeholder="Especifique"></td>
+                <td><input type="text" id="coronario_corpo" name="coronario-corpo" placeholder="Especifique"></td>
+            </tr>
+            <tr>
+                <td class="chakra-name frontal">Frontal</td>
+                <td><input type="text" id="desequilibrio_frontal" name="frontal-desequilibrio" placeholder="Sim/Não"></td>
+                <td><input type="text" id="percentual_desequilibrio_frontal" name="frontal-percentual" placeholder="Digite o %" oninput="formatPercentage(this)"></td>
+                <td><input type="text" id="atividade_frontal" name="frontal-atividade" placeholder="Especifique"></td>
+                <td><input type="text" id="frontal_corpo" name="frontal-corpo" placeholder="Especifique"></td>
+            </tr>
+            <tr>
+                <td class="chakra-name laringeo">Laríngeo</td>
+                <td><input type="text" id="desequilibrio_laringeo" name="laringeo-desequilibrio" placeholder="Sim/Não"></td>
+                <td><input type="text" id="percentual_desequilibrio_laringeo" name="laringeo-percentual" placeholder="Digite o %" oninput="formatPercentage(this)"></td>
+                <td><input type="text" id="atividade_laringeo" name="laringeo-atividade" placeholder="Especifique"></td>
+                <td><input type="text" id="laringeo_corpo" name="laringeo-corpo" placeholder="Especifique"></td>
+            </tr>
+            <tr>
+                <td class="chakra-name cardiaco">Cardíaco</td>
+                <td><input type="text" id="desequilibrio_cardiaco" name="cardiaco-desequilibrio" placeholder="Sim/Não"></td>
+                <td><input type="text" id="percentual_desequilibrio_cardiaco" name="cardiaco-percentual" placeholder="Digite o %" oninput="formatPercentage(this)"></td>
+                <td><input type="text" id="atividade_cardiaco" name="cardiaco-atividade" placeholder="Especifique"></td>
+                <td><input type="text" id="cardiaco_corpo" name="cardiaco-corpo" placeholder="Especifique"></td>
+            </tr>
+            <tr>
+                <td class="chakra-name plexo-solar">Plexo Solar</td>
+                <td><input type="text" id="desequilibrio_plexo_solar" name="plexo-desequilibrio" placeholder="Sim/Não"></td>
+                <td><input type="text" id="percentual_desequilibrio_plexo_solar" name="plexo-percentual" placeholder="Digite o %" oninput="formatPercentage(this)"></td>
+                <td><input type="text" id="atividade_plexo_solar" name="plexo-atividade" placeholder="Especifique"></td>
+                <td><input type="text" id="plexo_corpo" name="plexo-corpo" placeholder="Especifique"></td>
+            </tr>
+            <tr>
+                <td class="chakra-name sacro">Sacro</td>
+                <td><input type="text" id="desequilibrio_sacro" name="sacro-desequilibrio" placeholder="Sim/Não"></td>
+                <td><input type="text" id="percentual_desequilibrio_sacro" name="sacro-percentual" placeholder="Digite o %" oninput="formatPercentage(this)"></td>
+                <td><input type="text" id="atividade_sacro" name="sacro-atividade" placeholder="Especifique"></td>
+                <td><input type="text" id="sacro_corpo" name="sacro-corpo" placeholder="Especifique"></td>
+            </tr>
+            <tr>
+                <td class="chakra-name basico">Básico</td>
+                <td><input type="text" id="desequilibrio_basico" name="basico-desequilibrio" placeholder="Sim/Não"></td>
+                <td><input type="text" id="percentual_desequilibrio_basico" name="basico-percentual" placeholder="Digite o %" oninput="formatPercentage(this)"></td>
+                <td><input type="text" id="atividade_basico" name="basico-atividade" placeholder="Especifique"></td>
+                <td><input type="text" id="basico_corpo" name="basico-corpo" placeholder="Especifique"></td>
+            </tr>
+        </table>
+
+        <div class="image-section">
+            <img src="https://media.licdn.com/dms/image/v2/D4E22AQElIYOSl40eBg/feedshare-shrink_800/feedshare-shrink_800/0/1723752280523?e=1726704000&v=beta&t=vpJWpkzZDTnHHb-i5ueWSzKAdA6rhUOoazshbhFhQZ0" alt="Imagem de referência">
+        </div>
+
+        <div class="campo-aurico">
+            <h3>CAMPO ÁURICO</h3>
+            <p>Aferição energética da aura: proteção, tamanho, cores.</p>
+        </div>
+
+        <div class="aurico-section">
+            <div class="slider-container">
+                <label for="protecao-aura">PROTEÇÃO DA AURA</label>
+                <input type="range" id="protecao-aura" name="protecao-aura" min="0" max="100" value="50" oninput="updateSliderValue(this, document.getElementById('protecao-aura-value'))">
+                <span id="protecao-aura-value">50%</span>
+            </div>
+            <div class="comentario">
+                <label for="comentario-protecao">COMENTÁRIO:</label>
+                <input type="text" id="comentario-protecao" name="comentario-protecao" placeholder="Adicione um comentário">
+            </div>
+        </div>
+
+        <div class="aurico-section">
+            <div class="slider-container">
+                <label for="tamanho-aura">TAMANHO DA AURA</label>
+                <input type="range" id="tamanho-aura" name="tamanho-aura" min="0" max="100" value="50" oninput="updateSliderValue(this, document.getElementById('tamanho-aura-value'))">
+                <span id="tamanho-aura-value">50%</span>
+            </div>
+            <div class="comentario">
+                <label for="comentario-tamanho">COMENTÁRIO:</label>
+                <input type="text" id="comentario-tamanho" name="comentario-tamanho" placeholder="Adicione um comentário">
+            </div>
+        </div>
+
+        <div class="energia-saude">
+            <h3>ENERGIA DE SAÚDE</h3>
+            <p>Aferição energética do campo da saúde.</p>
+        </div>
+
+        <div class="energia-saude-section">
+            <label for="energia-saude">Biômetro de A. Bovis</label>
+            <input type="text" id="energia-saude" name="energia-saude" placeholder="Digite a informação">
+        </div>
+
+        <div class="comentario">
+            <label for="comentario-saude">COMENTÁRIO:</label>
+            <input type="text" id="comentario-saude" name="comentario-saude" placeholder="Adicione um comentário">
+        </div>
+
+        <div class="areas-vida">
+            <h3>ÁREAS DA VIDA</h3>
+            <p>Aferição energética das principais áreas da vida, a fim de correlacionar com as desarmonias mensuradas.</p>
+        </div>
+
+        <div class="areas-vida-section">
+            <table>
+                <tr>
+                    <th>PÉSSIMO</th>
+                    <th>RUIM</th>
+                    <th>BOM</th>
+                    <th>EXCELENTE</th>
+                </tr>
+                <tr>
+                    <td><input type="radio" id="familiar_pessimo" name="familiar" value="pessimo"></td>
+                    <td><input type="radio" id="familiar_ruim" name="familiar" value="ruim"></td>
+                    <td><input type="radio" id="familiar_bom" name="familiar" value="bom"></td>
+                    <td><input type="radio" id="familiar_excelente" name="familiar" value="excelente"></td>
+                </tr>
+                <tr>
+                    <td><input type="radio" id="afetivo_pessimo" name="afetivo" value="pessimo"></td>
+                    <td><input type="radio" id="afetivo_ruim" name="afetivo" value="ruim"></td>
+                    <td><input type="radio" id="afetivo_bom" name="afetivo" value="bom"></td>
+                    <td><input type="radio" id="afetivo_excelente" name="afetivo" value="excelente"></td>
+                </tr>
+                <tr>
+                    <td><input type="radio" id="profissional_pessimo" name="profissional" value="pessimo"></td>
+                    <td><input type="radio" id="profissional_ruim" name="profissional" value="ruim"></td>
+                    <td><input type="radio" id="profissional_bom" name="profissional" value="bom"></td>
+                    <td><input type="radio" id="profissional_excelente" name="profissional" value="excelente"></td>
+                </tr>
+                <tr>
+                    <td><input type="radio" id="financeiro_pessimo" name="financeiro" value="pessimo"></td>
+                    <td><input type="radio" id="financeiro_ruim" name="financeiro" value="ruim"></td>
+                    <td><input type="radio" id="financeiro_bom" name="financeiro" value="bom"></td>
+                    <td><input type="radio" id="financeiro_excelente" name="financeiro" value="excelente"></td>
+                </tr>
+                <tr>
+                    <td><input type="radio" id="missao_pessimo" name="missao" value="pessimo"></td>
+                    <td><input type="radio" id="missao_ruim" name="missao" value="ruim"></td>
+                    <td><input type="radio" id="missao_bom" name="missao" value="bom"></td>
+                    <td><input type="radio" id="missao_excelente" name="missao" value="excelente"></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Adicionando botões de controle -->
+        <div class="button-container">
+            <button onclick="generatePDF()">Gerar Relatório</button>
+            <button onclick="exportData()">Exportar Dados</button>         
+            <input type="file" id="importFile" style="display:none" onchange="importData(event)">
+            <button onclick="document.getElementById('importFile').click()">Importar Dados</button>
+            <button onclick="clearAllInputs()">Limpar Dados</button>
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2024 Radiestesia Terapêutica - Todos os direitos reservados</p>
+        </div>
+    </div>
+</body>
+</html>
