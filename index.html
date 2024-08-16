@@ -88,6 +88,7 @@
             padding: 5px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            text-align: center; /* Centraliza os campos de digitação */
         }
         .footer {
             text-align: center;
@@ -107,6 +108,7 @@
         .basico { color: red; }
         .comentario {
             margin-top: 10px;
+            margin-bottom: 20px; /* Adiciona espaço entre a seção de comentário e a próxima seção */
             font-weight: bold;
             text-align: left;
         }
@@ -165,19 +167,23 @@
         }
         .energia-saude-section {
             display: flex;
-            justify-content: space-between;
+            justify-content: center; /* Centraliza o texto "Biômetro de A. Bovis" */
             align-items: center;
         }
-        .energia-saude-section input[type="text"] {
-            width: 70%;
-            padding: 10px;
+        .energia-saude-table {
+            margin-bottom: 20px;
+        }
+        .energia-saude-table td input[type="text"] {
+            width: 100%;
+            padding: 5px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            text-align: center; /* Centraliza os campos de digitação */
         }
-        .energia-saude-section label {
-            width: 25%;
-            text-align: left;
+        .energia-saude-table .reference-value {
             font-weight: bold;
+            text-align: center;
+            background-color: #f0f0f0;
         }
         .button-container {
             text-align: center;
@@ -457,10 +463,27 @@
             <p>Aferição energética do campo da saúde.</p>
         </div>
 
+        <!-- Centralizei o texto "Biômetro de A. Bovis" e removi o campo de entrada -->
         <div class="energia-saude-section">
-            <label for="energia-saude">Biômetro de A. Bovis</label>
-            <input type="text" id="energia-saude" name="energia-saude" placeholder="Digite a informação">
+            <h4>Biômetro de A. Bovis</h4>
         </div>
+
+        <!-- Tabela de Energia de Saúde -->
+        <table class="energia-saude-table">
+            <tr>
+                <td><input type="text" name="col1"></td>
+                <td><input type="text" name="col2"></td>
+                <td><input type="text" name="col3"></td>
+                <td><input type="text" name="col4"></td>
+                <td><input type="text" name="col5"></td>
+                <td class="reference-value">6500 A</td> <!-- Valor de referência centralizado -->
+                <td><input type="text" name="col7"></td>
+                <td><input type="text" name="col8"></td>
+                <td><input type="text" name="col9"></td>
+                <td><input type="text" name="col10"></td>
+                <td><input type="text" name="col11"></td> <!-- Nova coluna à direita -->
+            </tr>
+        </table>
 
         <div class="comentario">
             <label for="comentario-saude">COMENTÁRIO:</label>
