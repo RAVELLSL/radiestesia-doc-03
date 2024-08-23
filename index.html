@@ -17,7 +17,7 @@
             background-color: #ffffff;
             padding: 20px;
             border-radius: 10px;
-            max-width: 1000px; /* Aumentado de 800px para 1000px */
+            max-width: 1000px;
             margin: auto;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -88,7 +88,7 @@
             padding: 5px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            text-align: center; /* Centraliza os campos de digitação */
+            text-align: center;
         }
         .footer {
             text-align: center;
@@ -108,7 +108,7 @@
         .basico { color: red; }
         .comentario {
             margin-top: 10px;
-            margin-bottom: 20px; /* Adiciona espaço entre a seção de comentário e a próxima seção */
+            margin-bottom: 20px;
             font-weight: bold;
             text-align: left;
         }
@@ -167,7 +167,7 @@
         }
         .energia-saude-section {
             display: flex;
-            justify-content: center; /* Centraliza o texto "Biômetro de A. Bovis" */
+            justify-content: center;
             align-items: center;
         }
         .energia-saude-table {
@@ -178,7 +178,7 @@
             padding: 5px;
             border: 1px solid #ccc;
             border-radius: 5px;
-            text-align: center; /* Centraliza os campos de digitação */
+            text-align: center;
         }
         .energia-saude-table .reference-value {
             font-weight: bold;
@@ -236,6 +236,18 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
     <script>
+        function getFileName(baseName, extension) {
+            const protocolNumber = document.getElementById('protocolo').value.trim();
+            const userName = document.getElementById('nome').value.trim();
+            const pageTitle = document.title.trim();
+
+            if (protocolNumber && userName && pageTitle) {
+                return `${protocolNumber}_${userName}_${pageTitle}.${extension}`;
+            } else {
+                return `${baseName}.${extension}`;
+            }
+        }
+
         function clearAllInputs() {
             document.querySelectorAll('input').forEach(input => {
                 input.value = '';
@@ -247,9 +259,7 @@
         }
 
         function exportData() {
-            const fileName = prompt("Por favor, insira o nome do arquivo:", "dados_radiestesia");
-            if (!fileName) return;
-
+            const fileName = getFileName('dados_radiestesia', 'json');
             const data = {};
             document.querySelectorAll('input').forEach((input) => {
                 if (input.type === 'radio') {
@@ -265,7 +275,7 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
-            a.download = `${fileName}.json`;
+            a.download = fileName;
             a.click();
             URL.revokeObjectURL(url);
         }
@@ -292,31 +302,62 @@
             reader.readAsText(file);
         }
 
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            if (isNaN(date.getTime())) return ""; // Se não for uma data válida, retornar vazio
+
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear();
+
+            return `${day}/${month}/${year}`;
+        }
+
         function generatePDF() {
+            const fileName = getFileName('relatorio_harmonizacao', 'pdf');
+
+            // Formatando as datas antes de gerar o PDF
+            document.querySelectorAll('input[type="date"]').forEach(input => {
+                const formattedDate = formatDate(input.value);
+                input.setAttribute('data-formatted-value', formattedDate);
+            });
+
             const element = document.querySelector(".container");
             const opt = {
                 margin: 0.5,
-                filename: 'relatorio_harmonizacao.pdf',
+                filename: fileName,
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { scale: 2, useCORS: true },
                 jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
                 pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
             };
-            html2pdf().from(element).set(opt).save();
+
+            // Substituir os campos de data pelo valor formatado
+            document.querySelectorAll('input[type="date"]').forEach(input => {
+                const parent = input.parentNode;
+                const span = document.createElement('span');
+                span.textContent = input.getAttribute('data-formatted-value');
+                parent.replaceChild(span, input);
+            });
+
+            html2pdf().from(element).set(opt).save().then(() => {
+                // Restaurar os campos de data após a geração do PDF
+                document.querySelectorAll('span').forEach(span => {
+                    const parent = span.parentNode;
+                    const input = document.createElement('input');
+                    input.type = 'date';
+                    input.value = formatDateBack(span.textContent);
+                    parent.replaceChild(input, span);
+                });
+            });
         }
 
-        function formatPercentage(input) {
-            let value = input.value;
-            value = value.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
-            if (value) {
-                input.value = value + '%';
-            } else {
-                input.value = '';
-            }
-        }
+        function formatDateBack(dateString) {
+            const [day, month, year] = dateString.split('/');
+            if (!day || !month || !year) return "";
 
-        function updateSliderValue(slider, output) {
-            output.textContent = slider.value + '%';
+            const formattedDate = `${year}-${month}-${day}`;
+            return formattedDate;
         }
     </script>
 </head>
@@ -464,12 +505,10 @@
             <p>Aferição energética do campo da saúde.</p>
         </div>
 
-        <!-- Centralizei o texto "Biômetro de A. Bovis" e removi o campo de entrada -->
         <div class="energia-saude-section">
             <h4>Biômetro de A. Bovis</h4>
         </div>
 
-        <!-- Tabela de Energia de Saúde -->
         <table class="energia-saude-table">
             <tr>
                 <td><input type="text" name="col1"></td>
@@ -477,12 +516,12 @@
                 <td><input type="text" name="col3"></td>
                 <td><input type="text" name="col4"></td>
                 <td><input type="text" name="col5"></td>
-                <td class="reference-value">6500 A</td> <!-- Valor de referência centralizado -->
+                <td class="reference-value">6500 A</td>
                 <td><input type="text" name="col7"></td>
                 <td><input type="text" name="col8"></td>
                 <td><input type="text" name="col9"></td>
                 <td><input type="text" name="col10"></td>
-                <td><input type="text" name="col11"></td> <!-- Nova coluna à direita -->
+                <td><input type="text" name="col11"></td>
             </tr>
         </table>
 
@@ -537,7 +576,6 @@
             </table>
         </div>
 
-        <!-- Adicionando botões de controle -->
         <div class="button-container">
             <button onclick="generatePDF()">Gerar Relatório</button>
             <button onclick="exportData()">Exportar Dados</button>         
